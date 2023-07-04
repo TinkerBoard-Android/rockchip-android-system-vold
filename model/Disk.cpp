@@ -184,6 +184,7 @@ void Disk::createPublicVolume(dev_t device) {
 
     mVolumes.push_back(vol);
     vol->setDiskId(getId());
+    vol->setEventPath(mEventPath);
     vol->create();
 }
 

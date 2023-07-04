@@ -59,6 +59,8 @@ class PublicVolume : public VolumeBase {
     std::string mDevPath;
     /* Mount point of raw partition */
     std::string mRawPath;
+    /* Fixed name of Mount point */
+    std::string mFixedName;
 
     std::string mSdcardFsDefault;
     std::string mSdcardFsRead;

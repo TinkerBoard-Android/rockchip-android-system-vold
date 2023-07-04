@@ -143,6 +143,13 @@ status_t VolumeBase::setInternalPath(const std::string& internalPath) {
     return OK;
 }
 
+status_t VolumeBase::setEventPath(const std::string& eventPath) {
+
+    mEventPath = eventPath;
+
+    return OK;
+}
+
 status_t VolumeBase::setMountCallback(
         const android::sp<android::os::IVoldMountCallback>& callback) {
     mMountCallback = callback;

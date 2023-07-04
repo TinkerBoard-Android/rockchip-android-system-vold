@@ -158,6 +158,22 @@ status_t PublicVolume::doMount() {
         stableName = mFsUuid;
     }
 
+    char value[PROPERTY_VALUE_MAX];
+    property_get("ro.product.name", value, "");
+    if (strcmp("Sanden", value) == 0) {
+        std::string eventPath = getEventPath();
+        PLOG(ERROR) << "disk dev path:" <<"eventPath:"<<eventPath;
+        if(strstr(eventPath.c_str(), "fd000000.dwc3") != NULL) {
+            stableName = "udisk";
+            std::string tmpPath = StringPrintf("/mnt/media_rw/%s", stableName.c_str());
+            for (int i = 2; pathExists(tmpPath); i++) {
+                stableName = StringPrintf("%s%d", stableName.c_str(), i);
+                tmpPath = StringPrintf("/mnt/media_rw/%s", stableName.c_str());
+            }
+            mFixedName = stableName;
+        }
+    }
+
     mRawPath = StringPrintf("/mnt/media_rw/%s", stableName.c_str());
 
     mSdcardFsDefault = StringPrintf("/mnt/runtime/default/%s", stableName.c_str());
@@ -326,6 +342,15 @@ status_t PublicVolume::doUnmount() {
         std::string stableName = getId();
         if (!mFsUuid.empty()) {
             stableName = mFsUuid;
+        }
+
+        char value[PROPERTY_VALUE_MAX];
+        property_get("ro.product.name", value, "");
+        if (strcmp("Sanden", value) == 0) {
+            std::string eventPath = getEventPath();
+            if(strstr(eventPath.c_str(), "fd000000.dwc3") != NULL) {
+                stableName = mFixedName;
+            }
         }
 
         if (UnmountUserFuse(getMountUserId(), getInternalPath(), stableName) != OK) {

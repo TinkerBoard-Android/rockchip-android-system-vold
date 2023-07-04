@@ -89,6 +89,7 @@ class VolumeBase {
     const std::string& getPath() const { return mPath; }
     const std::string& getInternalPath() const { return mInternalPath; }
     const std::list<std::shared_ptr<VolumeBase>>& getVolumes() const { return mVolumes; }
+    const std::string& getEventPath() const { return mEventPath; }
 
     status_t setDiskId(const std::string& diskId);
     status_t setPartGuid(const std::string& partGuid);
@@ -96,6 +97,7 @@ class VolumeBase {
     status_t setMountUserId(userid_t mountUserId);
     status_t setMountCallback(const android::sp<android::os::IVoldMountCallback>& callback);
     status_t setSilent(bool silent);
+    status_t setEventPath(const std::string& eventPath);
 
     void addVolume(const std::shared_ptr<VolumeBase>& volume);
     void removeVolume(const std::shared_ptr<VolumeBase>& volume);
@@ -155,6 +157,8 @@ class VolumeBase {
     /* Flag indicating that volume should emit no events */
     bool mSilent;
     android::sp<android::os::IVoldMountCallback> mMountCallback;
+    /* Path to storage event*/
+    std::string mEventPath;
 
     /* Volumes stacked on top of this volume */
     std::list<std::shared_ptr<VolumeBase>> mVolumes;
