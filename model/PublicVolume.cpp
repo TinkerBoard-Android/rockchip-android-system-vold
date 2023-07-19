@@ -160,7 +160,7 @@ status_t PublicVolume::doMount() {
 
     char value[PROPERTY_VALUE_MAX];
     property_get("ro.product.name", value, "");
-    if (strcmp("Sanden", value) == 0) {
+    if ((strcmp("Sanden_VM", value) == 0) || (strcmp("Sanden_CM", value) == 0)) {
         std::string eventPath = getEventPath();
         PLOG(ERROR) << "disk dev path:" <<"eventPath:"<<eventPath;
         if(strstr(eventPath.c_str(), "fd000000.dwc3") != NULL) {
@@ -346,7 +346,7 @@ status_t PublicVolume::doUnmount() {
 
         char value[PROPERTY_VALUE_MAX];
         property_get("ro.product.name", value, "");
-        if (strcmp("Sanden", value) == 0) {
+        if ((strcmp("Sanden_VM", value) == 0) || (strcmp("Sanden_CM", value) == 0)) {
             std::string eventPath = getEventPath();
             if(strstr(eventPath.c_str(), "fd000000.dwc3") != NULL) {
                 stableName = mFixedName;
